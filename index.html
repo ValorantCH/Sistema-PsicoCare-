@@ -6,17 +6,19 @@
     <title>PsicoCare - Gestión de Citas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f5f9;
+            background-color: #f0f8ff;
+            color: #333;
         }
 
         nav {
-            background-color: #2c3e50;
+            background-color: #4682b4;
             color: white;
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .container {
@@ -28,71 +30,134 @@
         .form-container {
             background-color: white;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            max-width: 500px;
             margin: 2rem auto;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 0.5rem;
-            margin: 0.5rem 0;
+            padding: 12px;
+            margin: 8px 0;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #5f9ea0;
+            outline: none;
+            box-shadow: 0 0 5px rgba(95, 158, 160, 0.5);
         }
 
         button {
-            background-color: #3498db;
+            background-color: #5f9ea0;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 12px 24px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+            min-width: 180px;
+        }
+
+        button:hover {
+            background-color: #4682b4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .appointment-list {
             background-color: white;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 1.5rem;
+            border-radius: 12px;
             margin-top: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         .dashboard {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 2rem;
         }
 
         .sidebar {
-            background-color: #34495e;
+            background-color: #5f9ea0;
             color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-btn {
+            background-color: #87ceeb;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-btn:hover {
+            background-color: #4682b4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-btn.active {
+            background-color: #4682b4;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cita {
             padding: 1rem;
+            margin-bottom: 1rem;
             border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #5f9ea0;
         }
     </style>
 </head>
 <body>
     <!-- Navegación -->
     <nav>
-        <h1>PsicoCare</h1>
+        <h1 style="margin:0; font-size: 2rem;">PsicoCare</h1>
+        <p style="margin:0; opacity: 0.9;">Sistema de Gestión de Citas Psicológicas</p>
     </nav>
 
     <!-- Contenido Principal -->
     <div class="container">
         <div class="dashboard">
             <div class="sidebar">
-                <h3>Menú Principal</h3>
-                <ul>
-                    <li><a href="#" onclick="mostrarAgendarCita()">Agendar Cita</a></li>
-                    <li><a href="#" onclick="mostrarCitas()">Mis Citas</a></li>
-                    <li><a href="#" onclick="mostrarPerfil()">Perfil</a></li>
-                </ul>
+                <h3 style="text-align: center; margin-top: 0;">Menú Principal</h3>
+                <div class="menu-buttons">
+                    <a href="#" class="menu-btn active" onclick="mostrarAgendarCita()">Agendar Cita</a>
+                    <a href="#" class="menu-btn" onclick="mostrarCitas()">Mis Citas</a>
+                    <a href="#" class="menu-btn" onclick="mostrarPerfil()">Perfil</a>
+                </div>
             </div>
 
             <!-- Sección de Agendar Cita -->
             <div id="agendarCita">
-                <h2>Agendar Nueva Cita</h2>
+                <h2 style="color: #4682b4;">Agendar Nueva Cita</h2>
                 <form onsubmit="agendarCita(event)">
                     <input type="date" id="fechaCita" required>
                     <input type="time" id="horaCita" required>
@@ -102,14 +167,14 @@
                         <option value="pareja">Pareja</option>
                         <option value="familiar">Familiar</option>
                     </select>
-                    <textarea id="notas" placeholder="Notas adicionales"></textarea>
+                    <textarea id="notas" placeholder="Notas adicionales" rows="4"></textarea>
                     <button type="submit">Agendar Cita</button>
                 </form>
             </div>
 
             <!-- Listado de Citas -->
             <div id="listadoCitas" style="display: none;">
-                <h2>Mis Próximas Citas</h2>
+                <h2 style="color: #4682b4;">Mis Próximas Citas</h2>
                 <div class="appointment-list" id="citasList">
                     <!-- Las citas se cargarán aquí dinámicamente -->
                 </div>
@@ -127,22 +192,34 @@
                 fecha: document.getElementById('fechaCita').value,
                 hora: document.getElementById('horaCita').value,
                 tipo: document.getElementById('tipoConsulta').value,
-                notas: document.getElementById('notas').value
+                notas: document.getElementById('notas').value,
+                estado: 'pendiente'
             };
             
             citas.push(nuevaCita);
             localStorage.setItem('citas', JSON.stringify(citas));
             alert('Cita agendada con éxito!');
             mostrarCitas();
+            
+            // Limpiar formulario
+            e.target.reset();
         }
 
         function mostrarCitas() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
             const citasList = document.getElementById('citasList');
-            citasList.innerHTML = citas.map(c => `
+            citasList.innerHTML = citas.map((c, index) => `
                 <div class="cita">
                     <p><strong>Fecha:</strong> ${c.fecha} ${c.hora}</p>
-                    <p><strong>Tipo:</strong> ${c.tipo}</p>
-                    <p>${c.notas}</p>
+                    <p><strong>Tipo:</strong> ${c.tipo.charAt(0).toUpperCase() + c.tipo.slice(1)}</p>
+                    ${c.notas ? `<p><strong>Notas:</strong> ${c.notas}</p>` : ''}
+                    <p><strong>Estado:</strong> <span style="color: ${c.estado === 'pendiente' ? '#4682b4' : '#5f9ea0'}">${c.estado.charAt(0).toUpperCase() + c.estado.slice(1)}</span></p>
+                    <button onclick="cancelarCita(${index})" style="background-color: #e74c3c; margin-top: 10px;">Cancelar Cita</button>
                     <hr>
                 </div>
             `).join('');
@@ -151,18 +228,39 @@
             document.getElementById('listadoCitas').style.display = 'block';
         }
 
+        function cancelarCita(index) {
+            if(confirm('¿Está seguro que desea cancelar esta cita?')) {
+                citas.splice(index, 1);
+                localStorage.setItem('citas', JSON.stringify(citas));
+                mostrarCitas();
+            }
+        }
+
         function mostrarAgendarCita() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
             document.getElementById('listadoCitas').style.display = 'none';
             document.getElementById('agendarCita').style.display = 'block';
         }
 
         function mostrarPerfil() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
             alert("Perfil del usuario (esta función puede expandirse)");
         }
 
         // Mostrar citas al cargar la página
         window.onload = function() {
-            mostrarCitas();
+            // Mostrar el formulario de agendar cita por defecto
+            document.getElementById('agendarCita').style.display = 'block';
         };
     </script>
 </body>
