@@ -261,7 +261,7 @@
         }
 
         function cancelarCita(index) {
-            if(confirm('¿Está seguro que desea cancelar esta cita?')) {
+            if(confirm('¿Está seguro que desea eliminar esta cita?')) {
                 citas.splice(index, 1);
                 localStorage.setItem('citas', JSON.stringify(citas));
                 mostrarCitas();
