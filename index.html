@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsicoCare - Gestión de Citas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #4682b4 0%, #5f9ea0 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #5f9ea0;
+            outline: none;
+            box-shadow: 0 0 5px rgba(95, 158, 160, 0.5);
+        }
+
+        button {
+            background-color: #5f9ea0;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+            min-width: 180px;
+        }
+
+        button:hover {
+            background-color: #4682b4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .appointment-list {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background-color: #5f9ea0;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-btn {
+            background-color: #87ceeb;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-btn:hover {
+            background-color: #4682b4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-btn.active {
+            background-color: #4682b4;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cita {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #5f9ea0;
+        }
+
+        .system-title {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav>
+        <div class="header-content">
+            <div class="logo-container">
+                <!-- Imagen relacionada con psicología (puedes reemplazar la URL) -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1998/1998667.png" alt="Psicología" class="logo-img">
+                <h1 style="margin:0; font-size: 2rem;">PsicoCare</h1>
+                <p class="system-title">Sistema de Gestión de Citas Psicológicas</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <h3 style="text-align: center; margin-top: 0;">Menú Principal</h3>
+                <div class="menu-buttons">
+                    <a href="#" class="menu-btn active" onclick="mostrarAgendarCita()">Agendar Cita</a>
+                    <a href="#" class="menu-btn" onclick="mostrarCitas()">Mis Citas</a>
+                    <a href="#" class="menu-btn" onclick="mostrarPerfil()">Perfil</a>
+                </div>
+            </div>
+
+            <!-- Sección de Agendar Cita -->
+            <div id="agendarCita">
+                <h2 style="color: #4682b4;">Agendar Nueva Cita</h2>
+                <form onsubmit="agendarCita(event)">
+                    <input type="date" id="fechaCita" required>
+                    <input type="time" id="horaCita" required>
+                    <select id="tipoConsulta" required>
+                        <option value="">Seleccione tipo de consulta</option>
+                        <option value="individual">Individual</option>
+                        <option value="pareja">Pareja</option>
+                        <option value="familiar">Familiar</option>
+                    </select>
+                    <textarea id="notas" placeholder="Notas adicionales" rows="4"></textarea>
+                    <button type="submit">Agendar Cita</button>
+                </form>
+            </div>
+
+            <!-- Listado de Citas -->
+            <div id="listadoCitas" style="display: none;">
+                <h2 style="color: #4682b4;">Mis Próximas Citas</h2>
+                <div class="appointment-list" id="citasList">
+                    <!-- Las citas se cargarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de base de datos
+        let citas = JSON.parse(localStorage.getItem('citas')) || [];
+
+        function agendarCita(e) {
+            e.preventDefault();
+            const nuevaCita = {
+                fecha: document.getElementById('fechaCita').value,
+                hora: document.getElementById('horaCita').value,
+                tipo: document.getElementById('tipoConsulta').value,
+                notas: document.getElementById('notas').value,
+                estado: 'pendiente'
+            };
+            
+            citas.push(nuevaCita);
+            localStorage.setItem('citas', JSON.stringify(citas));
+            alert('Cita agendada con éxito!');
+            mostrarCitas();
+            
+            // Limpiar formulario
+            e.target.reset();
+        }
+
+        function mostrarCitas() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const citasList = document.getElementById('citasList');
+            citasList.innerHTML = citas.map((c, index) => `
+                <div class="cita">
+                    <p><strong>Fecha:</strong> ${c.fecha} ${c.hora}</p>
+                    <p><strong>Tipo:</strong> ${c.tipo.charAt(0).toUpperCase() + c.tipo.slice(1)}</p>
+                    ${c.notas ? `<p><strong>Notas:</strong> ${c.notas}</p>` : ''}
+                    <p><strong>Estado:</strong> <span style="color: ${c.estado === 'pendiente' ? '#4682b4' : '#5f9ea0'}">${c.estado.charAt(0).toUpperCase() + c.estado.slice(1)}</span></p>
+                    <button onclick="cancelarCita(${index})" style="background-color: #e74c3c; margin-top: 10px;">Cancelar Cita</button>
+                    <hr>
+                </div>
+            `).join('');
+            
+            document.getElementById('agendarCita').style.display = 'none';
+            document.getElementById('listadoCitas').style.display = 'block';
+        }
+
+        function cancelarCita(index) {
+            if(confirm('¿Está seguro que desea cancelar esta cita?')) {
+                citas.splice(index, 1);
+                localStorage.setItem('citas', JSON.stringify(citas));
+                mostrarCitas();
+            }
+        }
+
+        function mostrarAgendarCita() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('listadoCitas').style.display = 'none';
+            document.getElementById('agendarCita').style.display = 'block';
+        }
+
+        function mostrarPerfil() {
+            // Actualizar clases activas de los botones
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            alert("Perfil del usuario (esta función puede expandirse)");
+        }
+
+        // Mostrar citas al cargar la página
+        window.onload = function() {
+            // Mostrar el formulario de agendar cita por defecto
+            document.getElementById('agendarCita').style.display = 'block';
+            //Cambio nuevo en la interfaz
+            //HOLA BROS
+            //jajajajajjaja
+        };
+    </script>
+</body>
+</html>
